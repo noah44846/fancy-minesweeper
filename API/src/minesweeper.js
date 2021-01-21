@@ -126,4 +126,4 @@ function revealEmptyArea(id, x, y) {
 
 }
 
-module.exports = { gridList, addGame, getGame, getGames, clickCell };
+module.exports = { addGame, getGame, getGames, clickCell };
