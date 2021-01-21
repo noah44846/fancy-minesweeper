@@ -24,7 +24,6 @@
 
 <script>
 import backend from "../backend";
-// import Vue from 'vue'
 
 export default {
   data() {
@@ -36,12 +35,8 @@ export default {
   },
   methods: {
     click(x, y) {
-      backend.clickCell(this.id, x, y).then((data) => {
-        // if (data.hasOtherCellChanged) {
+      backend.clickCell(this.id, x, y).then(() => {
         this.getGame();
-        // }
-        //Vue.set(this.grid[x], y, data.cell);
-        data;
       });
     },
     getGame() {
@@ -63,12 +58,13 @@ export default {
   margin: 0;
   height: 40px;
 }
+
 .grid-col {
   display: block;
   width: 40px;
   height: 40px;
   border: 1px solid #000;
-  background-color: #e1e1e1;
+  background-color: #bbb;
 }
 
 .grid-col img {
