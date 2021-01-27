@@ -23,7 +23,7 @@ app.get('/games/:id', (req, res) => {
 app.post('/games', (req, res) => {
     const { gridWidth, gridHeight, numBombs } = req.body;
     const game = addGame(gridWidth, gridHeight, numBombs);
-        
+
     res.send(game);
 });
 
@@ -33,7 +33,7 @@ app.patch('/games/:id/click/:x/:y', (req, res) => {
     const id = Number(req.params.id);
 
     const cell = clickCell(id, x, y);
-    
+
     res.send(cell);
 });
 
