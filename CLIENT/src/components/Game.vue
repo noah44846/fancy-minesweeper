@@ -3,7 +3,9 @@
     <div v-if="game.state == 'ONGOING'">
       <div class="grid-row" :key="row.id" v-for="(row, i) in grid">
         <div
-          v-on:click="reveal(i, j)"
+          @click="click(i, j)"
+          @click.right="click(i, j, true)"
+          @contextmenu.prevent
           :key="cell.id"
           v-for="(cell, j) in row"
           class="grid-col"
@@ -13,11 +15,17 @@
             :src="'/img/' + (cell.isBomb ? 'bomb' : cell.bombsAround) + '.png'"
             alt="cell image"
           />
+          <img
+            v-else-if="cell.state === 'FLAGED'"
+            src="/img/flag.png"
+            alt="flag"
+          />
+          <div v-else></div>
         </div>
       </div>
     </div>
-    <img v-else-if="game.state == 'WON'" src="/img/won.png" />
-    <img v-else-if="game.state == 'LOST'" src="/img/lost.png" />
+    <img v-else-if="game.state === 'WON'" src="/img/won.png" />
+    <img v-else-if="game.state === 'LOST'" src="/img/lost.png" />
   </div>
   <p v-else>Loading...</p>
 </template>
@@ -34,8 +42,19 @@ export default {
     };
   },
   methods: {
-    reveal(x, y) {
-      backend.clickCell(this.id, x, y, 'REVEALED').then(() => {
+    click(x, y, isRight) {
+      const state = this.grid[x][y].state;
+      let newState = '';
+      if (state === 'FLAGED') newState = 'HIDDEN';
+      else if (state === 'HIDDEN') {
+        if (isRight) newState = 'FLAGED';
+        else newState = 'REVEALED';
+      }
+      else return;
+      this.updateCell(x, y, newState)
+    },
+    updateCell(x, y, state) {
+      backend.updateCell(this.id, x, y, state).then(() => {
         this.getGame();
       });
     },

@@ -12,5 +12,5 @@ export default {
     getGames: () => makeRequest('/games', get),
     getGame: (id) => makeRequest(`/games/${id}`, get),
     addGame: (gridWidth, gridHeight, numBombs) => makeRequest('/games', post, { gridWidth, gridHeight, numBombs }),
-    clickCell: (id, x, y, state) => makeRequest(`/games/${id}/cells/${x}/${y}`, patch, { state }),
+    updateCell: (id, x, y, state) => makeRequest(`/games/${id}/cells/${x}/${y}`, patch, { state }),
 }

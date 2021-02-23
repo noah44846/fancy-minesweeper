@@ -57,6 +57,7 @@ function updateCell(id, data) {
 
     if (state === hidden && cell.state === flaged) {
         cell.state = state;
+        if (!findInGrid(e => e.isBomb ? !(e.state === flaged) : (e.state === flaged))) game.state = won;
     } else if (state === revealed && cell.state === hidden) {
         if (cell.isBomb) game.state = lost;
         else {
