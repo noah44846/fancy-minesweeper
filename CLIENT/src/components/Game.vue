@@ -3,13 +3,13 @@
     <div v-if="game.state == 'ONGOING'">
       <div class="grid-row" :key="row.id" v-for="(row, i) in grid">
         <div
-          v-on:click="click(i, j)"
+          v-on:click="reveal(i, j)"
           :key="cell.id"
           v-for="(cell, j) in row"
           class="grid-col"
         >
           <img
-            v-if="cell.revealed"
+            v-if="cell.state === 'REVEALED'"
             :src="'/img/' + (cell.isBomb ? 'bomb' : cell.bombsAround) + '.png'"
             alt="cell image"
           />
@@ -34,8 +34,8 @@ export default {
     };
   },
   methods: {
-    click(x, y) {
-      backend.clickCell(this.id, x, y).then(() => {
+    reveal(x, y) {
+      backend.clickCell(this.id, x, y, 'REVEALED').then(() => {
         this.getGame();
       });
     },

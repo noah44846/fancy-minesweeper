@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const cors = require('cors');
-const { addGame, getGame, getGames, clickCell } = require('./minesweeper');
+const { addGame, getGame, getGames, updateCell } = require('./minesweeper');
 
 const app = express();
 const port = 3000;
@@ -27,14 +27,9 @@ app.post('/games', (req, res) => {
     res.send(game);
 });
 
-app.patch('/games/:id/click/:x/:y', (req, res) => {
-    const x = Number(req.params.x);
-    const y = Number(req.params.y);
-    const id = Number(req.params.id);
-
-    const cell = clickCell(id, x, y);
-
-    res.send(cell);
+app.patch('/games/:id/cells/:x/:y', (req, res) => {
+    const { params: { x, y, id }, body: { state } } = req;
+    res.send(updateCell(id, { x, y, state }));
 });
 
 app.listen(port, () => {
